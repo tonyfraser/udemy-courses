@@ -12,9 +12,12 @@ val spark = SparkSession.builder().getOrCreate()
 import org.apache.spark.ml.clustering.KMeans
 
 // Loads data.
-val dataset = spark.read.option("header","true").option("inferSchema","true").csv("sample_kmeans_data.txt")
+val dataset = spark.read.option("header","true")
+  .option("inferSchema","true")
+  .format("libsvm")
+  .load("sample_kmeans_data.txt")
 
-// Trains a k-means model.
+// Trains a k-means model.:
 val kmeans = new KMeans().setK(2).setSeed(1L)
 val model = kmeans.fit(dataset)
 

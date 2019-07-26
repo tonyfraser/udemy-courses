@@ -6,7 +6,8 @@ object MLIntro {
 
   def main(args: Array[String]): Unit = {
     Logger.getLogger("org").setLevel(Level.ERROR)
-    Logger.getLogger("com").setLevel(Level.ERROR)
+  //  Logger.getLogger("com").setLevel(Level.ERROR)
+
     def sparkSession: SparkSession = {
       SparkSession
         .builder()
@@ -18,14 +19,13 @@ object MLIntro {
     implicit val spark = sparkSession
 
 
-   // new BinaryLogisticRegressionClassifier().run
-   // new Linear().run
-   // new DocExample().run
-   new TitanicLogisticRegression().run
-
-
-
-
+    // new BinaryLogisticRegressionClassifier().run
+    // new Linear().run
+    // new DocExample().run
+    // new TitanicLogisticRegression().run
+    // new ModelValidation().run
+    //new KMeansClustering().run
+    new KMeansClustering().runExercise
 
   }
 
