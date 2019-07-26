@@ -7,7 +7,7 @@ class KMeansClustering {
     val wholesaleCustomer = "./src/main/resources/wholesale_customer_data.csv"
   }
 
-  def runExercise(implicit spark: SparkSession): Unit = {
+  def testCluster(implicit spark: SparkSession): Unit = {
     import spark.implicits._
     import org.apache.spark.ml.clustering.KMeans
     val customer = spark.read.option("inferschema", "true")
