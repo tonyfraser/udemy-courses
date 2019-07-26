@@ -1,8 +1,6 @@
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.SparkSession
 
-import scala.util.Try
-
 class KMeansClustering {
 
   object files {
@@ -41,7 +39,7 @@ class KMeansClustering {
 
     val training_data = assembler.transform(customer)
 
-    println("the larger the error, it wasn't the right k value")
+    println("the larger the error, it wasn't the right fit of a cluster")
 
     def kmeans(i: Int): Double =  {
       val kmeans = new KMeans().setK(i).setSeed(1L)
@@ -53,28 +51,28 @@ class KMeansClustering {
     val kmeansUdf = udf(kmeans(_: Int))
 
     val df = (2 to 16).toDF("cluster_count")
-      .withColumn("WSSE-Within Set Sum of Squared Errors", kmeansUdf($"cluster_count"))
+      .withColumn("WSSE (Within Set Sum of Squared Errors)", kmeansUdf($"cluster_count"))
 
     df.show(18, false)
 
-    //+-------------+-------------------------------------+
-    //|cluster_count|WSSE-Within Set Sum of Squared Errors|
-    //+-------------+-------------------------------------+
-    //|2            |1.1321752852090984E11                |
-    //|3            |8.095172370767671E10                 |
-    //|4            |6.485574002870931E10                 |
-    //|5            |5.893330181756374E10                 |
-    //|6            |4.831143188586025E10                 |
-    //|7            |4.570266077798425E10                 |
-    //|8            |4.021516055339824E10                 |
-    //|9            |3.442762468078519E10                 |
-    //|10           |3.1063984718043636E10                |
-    //|11           |2.9722384588475933E10                |
-    //|12           |2.7747907825725933E10                |
-    //|13           |2.9453999441512062E10                |
-    //|14           |2.5602666002003128E10                |
-    //|15           |2.408897587106168E10                 |
-    //|16           |2.2192390512907776E10                |
-    //+-------------+-------------------------------------+
+    //+-------------+---------------------------------------+
+    //|cluster_count|WSSE (Within Set Sum of Squared Errors)|
+    //+-------------+---------------------------------------+
+    //|2            |1.1321752852090984E11                  |
+    //|3            |8.095172370767671E10                   |
+    //|4            |6.485574002870931E10                   |
+    //|5            |5.893330181756374E10                   |
+    //|6            |4.831143188586025E10                   |
+    //|7            |4.570266077798425E10                   |
+    //|8            |4.021516055339824E10                   |
+    //|9            |3.442762468078519E10                   |
+    //|10           |3.1063984718043636E10                  |
+    //|11           |2.9722384588475933E10                  |
+    //|12           |2.7747907825725933E10                  |
+    //|13           |2.9453999441512062E10                  |
+    //|14           |2.5602666002003128E10                  |
+    //|15           |2.408897587106168E10                   |
+    //|16           |2.2192390512907776E10                  |
+    //+-------------+---------------------------------------+
   }
 }
