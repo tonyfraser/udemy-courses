@@ -1,10 +1,11 @@
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.SparkSession
 
+import scala.util.Try
+
 class KMeansClustering {
 
   object files {
-    val kmeans = "./src/main/resources/sample_kmeans_data.txt"
     val wholesaleCustomer = "./src/main/resources/wholesale_customer_data.csv"
   }
 
@@ -40,41 +41,40 @@ class KMeansClustering {
 
     val training_data = assembler.transform(customer)
 
-    val kmeans = new KMeans().setK(3).setSeed(1L)
-      //2 = 1.1321752852090984E11
-      //3 = 8.095172370767671E10
-    val model = kmeans.fit(training_data)
+    println("the larger the error, it wasn't the right k value")
 
-    val WSSSE = model.computeCost(training_data)
-    println(s"Within Set Sum of Squared Errors = $WSSSE")
+    def kmeans(i: Int): Double =  {
+      val kmeans = new KMeans().setK(i).setSeed(1L)
+      val model = kmeans.fit(training_data)
+      model.computeCost(training_data)
+    }
 
-    // Shows the result.
-    println("Cluster Centers: ")
-    model.clusterCenters.foreach(println)
+    import org.apache.spark.sql.functions._
+    val kmeansUdf = udf(kmeans(_: Int))
+
+    val df = (2 to 16).toDF("cluster_count")
+      .withColumn("WSSE-Within Set Sum of Squared Errors", kmeansUdf($"cluster_count"))
+
+    df.show(18, false)
+
+    //+-------------+-------------------------------------+
+    //|cluster_count|WSSE-Within Set Sum of Squared Errors|
+    //+-------------+-------------------------------------+
+    //|2            |1.1321752852090984E11                |
+    //|3            |8.095172370767671E10                 |
+    //|4            |6.485574002870931E10                 |
+    //|5            |5.893330181756374E10                 |
+    //|6            |4.831143188586025E10                 |
+    //|7            |4.570266077798425E10                 |
+    //|8            |4.021516055339824E10                 |
+    //|9            |3.442762468078519E10                 |
+    //|10           |3.1063984718043636E10                |
+    //|11           |2.9722384588475933E10                |
+    //|12           |2.7747907825725933E10                |
+    //|13           |2.9453999441512062E10                |
+    //|14           |2.5602666002003128E10                |
+    //|15           |2.408897587106168E10                 |
+    //|16           |2.2192390512907776E10                |
+    //+-------------+-------------------------------------+
   }
-
-  def run(implicit spark: SparkSession): Unit = {
-    import spark.implicits
-    import org.apache.spark.ml.clustering.KMeans
-
-    // Loads data.
-    val dataset = spark.read
-      .option("header", "true")
-      .option("inferSchema", "true")
-      .format("libsvm")
-      .load(files.kmeans)
-
-    // Trains a k-means model.
-    val kmeans = new KMeans().setK(2).setSeed(1L)
-    val model = kmeans.fit(dataset)
-
-    // Evaluate clustering by computing Within Set Sum of Squared Errors.
-    val WSSSE = model.computeCost(dataset)
-    println(s"Within Set Sum of Squared Errors = $WSSSE")
-
-    // Shows the result.
-    println("Cluster Centers: ")
-    model.clusterCenters.foreach(println)
-  }
-
 }
