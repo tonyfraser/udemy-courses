@@ -25,7 +25,8 @@ object MLIntro {
     // new TitanicLogisticRegression().run
     // new ModelValidation().run
     //new KMeansClustering().run
-    new KMeansClustering().testCluster
+    // new KMeansClustering().testCluster
+    new CancerPCA().run
 
   }
 
