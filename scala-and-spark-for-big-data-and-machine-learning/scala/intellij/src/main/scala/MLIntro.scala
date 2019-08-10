@@ -17,6 +17,21 @@ object MLIntro {
     }
 
     implicit val spark = sparkSession
+    import spark.implicits._
+//    val d1 = Seq((1, "one"), (2, "two")).toDF("id", "phrase_1")
+//    val d2 = Seq("uno","dos").toDF("phrase_2")
+//    val d1r = d1.rdd
+//    val d2r = d2.rdd
+//    val nr = d1
+//
+//    val d1a = d1.collect()
+//    val d2b = d2.collect()
+//
+//    d1a.map(k, v =>
+
+    )
+
+
 
 
     // new BinaryLogisticRegressionClassifier().run
@@ -26,7 +41,7 @@ object MLIntro {
     // new ModelValidation().run
     //new KMeansClustering().run
     // new KMeansClustering().testCluster
-    new CancerPCA().run
+    // new CancerPCA().run
 
   }
 
