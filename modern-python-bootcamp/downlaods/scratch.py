@@ -482,7 +482,7 @@ def triple_and_filter(l):
 #get stats on any given file
 # '''
 # statistics('story.txt')
-# # {'lines': 172, 'words': 2145, 'characters': 11227}
+# # {'lines': 172, 'words': 2145, 'characters': 1111227}
 # '''
 # def statistics(file_name):
 #     with open(file_name) as file:
