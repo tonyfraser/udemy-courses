@@ -7,3 +7,5 @@ scala-and-spark-for-big-data-and-machine-learning/scala/intellij/src/main/resour
 scala-and-spark-for-big-data-and-machine-learning/scala/intellij/project/target/*
 debug.log
 *.class
+*__pycache__/
+udemy-courses.iml
