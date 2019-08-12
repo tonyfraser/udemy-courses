@@ -500,4 +500,4 @@ def find_and_replace(f, needle, haystack):
             .replace(needle,haystack)\
 
         file.write(newdata)
-find_and_replace('fraser.csv', 'tori', 'megababe')
+find_and_replace('fraser.csv', 'tori', 'gf')
