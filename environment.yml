@@ -1,0 +1,19 @@
+name: courses 
+
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip
+  - ipython
+  # - aws-sam-cli -> install this with brew-install, not conda.
+  - awscli
+  - pip:
+    - psycopg2
+    - pytest
+    - pytest-cov
+    - boto3
+    - tzlocal
+    - pandas
+    - twine
+
